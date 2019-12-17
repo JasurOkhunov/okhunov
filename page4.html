@@ -1,0 +1,199 @@
+<html>
+   <head>
+       <title>Electronics</title>
+     <link href="styles.css" rel=stylesheet>
+       <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+     <body id="page4">
+         
+        
+
+         
+
+            <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .topnav a {
+      float: left;
+      color: green;
+      text-align: center;
+      padding: 10px 10px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .topnav a:hover {
+      background-color: #ddd;
+      color: green;
+    }
+
+    .topnav a.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    </style>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+ 
+
+
+
+   
+    <div class="topnav">
+      <a class="active" href="index.html">HOME</a>
+      <a href="page2.html">Movies</a>
+      <a href="page3.html">Electronics</a>
+      <a href="page4.html">Books</a>
+	   <a href="page5.html">About Us</a>
+	  <a href="page6.html">Contuct Us</a>
+	  <a href="login.html">Login</a>
+    </div>
+    <div class="container">
+         <h1 style="text-align:center; color: black">Book</h1>
+         <p style="border:3px; border-style:solid; border-color:green; padding: 1em; font-size: 20; color:black">&nbsp;&nbsp;&nbsp;&nbsp; Welcome to our Book page. These products you can purchase: </p>
+<body>
+        <div id="cart"></div>
+        <hr>
+        <h3>Our Products</h3>
+        <table style="width: 80%" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="productsTbl"></tbody>
+        </table>
+
+        <script>
+            var inventory = [
+                {
+                    id: "1",
+                    desc: "<strong>Think and Grow Rich</strong> was written by Napoleon Hill in 1937 and promoted as a personal development and self-improvement book.",
+                    price: 15.95,
+                    image: "think.jpg"
+                },
+                {
+                    id: "2",
+                    desc: "<b>The Alchemist</b> (Portuguese: O Alquimista) is a novel by Brazilian author Paulo Coelho that was first published in 1988. Originally written in Portuguese, it became a widely translated international bestseller.",
+                    price: 9.95,
+                    image: "al.jpg"
+                },
+                {
+                    id: "3",
+                    desc: "<strong>Rich Dad Poor Dad </strong>is a 1997 book written by Robert Kiyosaki and Sharon Lechter.It advocates the importance of financial literacy (financial education), financial independence and building wealth.",
+                    price: 13.99,
+                    image: "poor.jpg"
+                },
+                {
+                    id: "4",
+                    desc: "<b>Benjamin Franklin</b> was an American polymath and one of the Founding Fathers of the United States.",
+                    price: "<b>18.99<b>",
+                    image: "ben.jpg"
+                },
+               
+            ];
+            window.onload = function () {
+                for (var i = 0; i < inventory.length; i++) {
+                    var this_product = inventory[i];
+                    document.getElementById("productsTbl").innerHTML +=
+                            "<tr>" +
+                            "<td valign='top'>" + this_product.id + "</td>" +
+                            "<td valign='top'><img src='" + this_product.image + "' alt='Product' width='250', height='250'><br><h3>" + this_product.desc + "</h3></td>" +
+                            "<td valign='top' align='right'>$" + this_product.price + "<br>\n\
+        <button onclick='addToCart(\"" + this_product.id + "\",1)'>Add To Cart</button></td>" +
+                            "</tr>";
+                }
+                doShowAll();
+            };
+            // Check if browser supports localStorage
+            function CheckBrowser() {
+                if ("localStorage" in window && window["localStorage"] !== null) {
+                    // we can use localStorage object to store data
+                    return true;
+                } else {
+                    //  we cannot use localStorage object to store data
+                    return false;
+                }
+            }
+            // Add individual product to shopping cart
+            function addToCart(p, qty) {
+                localStorage.getItem("lastname");
+                if (localStorage.getItem(p)) {
+                    localStorage.setItem(p, parseInt(localStorage.getItem(p)) + 1);
+                } else {
+                    localStorage.setItem(p, qty);
+                }
+                doShowAll();
+            }
+            // Show the Shopping Cart from localStorage
+            function doShowAll() {
+                if (CheckBrowser()) {
+                    var total_items = 0;
+                    var total_cost = 0;
+                    var x = "<table style='width:50%;' class='table'>";
+                    x += "<tr><th colspan='2'><h3>Shopping Cart</h3></th></tr>";
+                    x += "<tr><th>Prod ID</th>";
+                    x += "<th>Product Description</th>";
+                    x += "<th>Unit Price</th>";
+                    x += "<th>Qty</th>";
+                    x += "<th>Total</th>";
+                    x += "<th>Delete</th>";
+                    x += "</tr>";
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var value = inventory[inventory.findIndex(x => x.id === key)].desc;
+                        var unit_price = inventory[inventory.findIndex(x => x.id === key)].price;
+                        x += "<tr>";
+                        x += "<td>" + key + "</td>";
+                        x += "<td>" + value + "</td>";
+                        x += "<td align='right'>" + unit_price + "</td>";
+                        x += "<td align='right'>" + localStorage.getItem(localStorage.key(i)) + "</td>";
+                        x += "<td align='right'>" + (localStorage.getItem(localStorage.key(i)) * unit_price).toFixed(2) + "</td>";
+                        x += "<td><input type=\"button\" onclick=\"deleteProduct('" + key.toString() + "')\" value='Delete'></td>";
+                        x += "</tr>";
+                        
+                        total_items += parseInt(localStorage.getItem(localStorage.key(i)));
+                        total_cost += (parseInt(localStorage.getItem(localStorage.key(i))) * parseFloat(unit_price));
+                    }
+                    
+                    // Create a table row to show totals
+                    x += "<tr>";
+                    x += "<td colspan='3' align='right'><strong>Totals:</strong></td>";
+                    x += "<td align='right'>"+total_items+"</td>";
+                    x += "<td align='right'>"+total_cost.toFixed(2)+"</td>";
+                    x += "</tr>";
+                    
+                    // Append the shopping cart to the page
+                    document.getElementById('cart').innerHTML = x;
+                } else {
+                    alert("Sorry, your browser does not support local storage.");
+                }
+            } // end function doShowAll
+            //Get the item value (qty)
+            function getItem(key) {
+                var value = localStorage.getItem(key);
+                return value;
+            }
+            // function to delete item from shopping cart
+            function deleteProduct(p) {
+                localStorage.removeItem(p);
+                doShowAll();
+            }
+        </script>
+
+    </body>
+</html>
+
+    
